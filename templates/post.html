@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}
+<title>學生資料管理系統-新增資料</title>
+
+<style>
+    body {
+        font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+        background-color: #f4f8fb;
+        color: #333;
+    }
+
+    h1 {
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .container {
+        width: 60%;
+        margin: auto;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        margin-top: 30px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    /* 表單 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: right;
+        padding: 12px;
+        width: 30%;
+        color: #555;
+        font-weight: 500;
+    }
+
+    td {
+        padding: 12px;
+    }
+
+    /* 輸入框 */
+    input[type="text"],
+    input[type="email"],
+    input[type="date"] {
+        width: 90%;
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #4da3ff;
+    }
+
+    /* radio */
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    /* 按鈕 */
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        background-color: #4da3ff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #3a8be0;
+    }
+
+    .btn-light {
+        background-color: #eaf4ff;
+        color: #4da3ff;
+    }
+
+    .btn-light:hover {
+        background-color: #d8ebff;
+    }
+
+    .top-bar {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    a.back {
+        text-decoration: none;
+        color: #4da3ff;
+        font-size: 14px;
+    }
+
+    a.back:hover {
+        text-decoration: underline;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="top-bar">
+        <h1>新增學生資料</h1>
+        <a href="/index/" class="back">← 回首頁</a>
+    </div>
+
+    <div class="card">
+        <form action="/post/" method="post">
+            {% csrf_token %}
+
+            <table>
+                <tr>
+                    <th>姓名</th>
+                    <td><input type="text" name="cname" required placeholder="請輸入姓名"></td>
+                </tr>
+
+                <tr>
+                    <th>性別</th>
+                    <td>
+                        <input type="radio" name="csex" value="M" checked> 男
+                        <input type="radio" name="csex" value="F"> 女
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>生日</th>
+                    <td><input type="date" name="cbirthday" required></td>
+                </tr>
+
+                <tr>
+                    <th>信箱</th>
+                    <td><input type="email" name="cemail" required placeholder="請輸入 Email"></td>
+                </tr>
+
+                <tr>
+                    <th>電話</th>
+                    <td><input type="text" name="cphone" placeholder="請輸入電話"></td>
+                </tr>
+
+                <tr>
+                    <th>地址</th>
+                    <td><input type="text" name="caddr" placeholder="請輸入地址"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:center; padding-top:20px;">
+                        <button type="submit" class="btn btn-primary">儲存</button>
+                        <button type="reset" class="btn btn-light">重置</button>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

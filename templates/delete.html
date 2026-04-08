@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}
+<title>學生資料管理系統-刪除資料</title>
+
+<style>
+    body {
+        font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+        background-color: #f4f8fb;
+        color: #333;
+    }
+
+    h1 {
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .container {
+        width: 60%;
+        margin: auto;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        margin-top: 30px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    /* 警告區塊 */
+    .warning {
+        background-color: #fff5f5;
+        color: #d9534f;
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    /* 表格 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: right;
+        padding: 12px;
+        width: 30%;
+        color: #555;
+        font-weight: 500;
+    }
+
+    td {
+        padding: 12px;
+        border-top: 1px solid #eee;
+    }
+
+    /* 按鈕 */
+    .btn {
+        padding: 8px 18px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .btn-danger {
+        background-color: #ff5c5c;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #e04848;
+    }
+
+    .btn-light {
+        background-color: #eaf4ff;
+        color: #4da3ff;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-light:hover {
+        background-color: #d8ebff;
+    }
+
+    .top-bar {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+</style>
+
+<script>
+    function doublecheck(){
+        return confirm("⚠️ 確定要刪除嗎？\n刪除後無法恢復！");
+    }
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="top-bar">
+        <h1>刪除學生資料</h1>
+        <a href="/index/" class="btn btn-light">← 回首頁</a>
+    </div>
+
+    <div class="card">
+
+        <div class="warning">
+            ⚠️ 此操作無法復原，請再次確認是否刪除
+        </div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <table>
+                <tr>
+                    <th>姓名</th>
+                    <td>{{obj.cname}}</td>
+                </tr>
+
+                <tr>
+                    <th>性別</th>
+                    <td>
+                        {% if obj.csex == "M" %} 男 {% else %} 女 {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>生日</th>
+                    <td>{{obj.cbirthday|date:'Y-m-d'}}</td>
+                </tr>
+
+                <tr>
+                    <th>信箱</th>
+                    <td>{{obj.cemail}}</td>
+                </tr>
+
+                <tr>
+                    <th>電話</th>
+                    <td>{{obj.cphone}}</td>
+                </tr>
+
+                <tr>
+                    <th>地址</th>
+                    <td>{{obj.caddr}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:center; padding-top:20px;">
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return doublecheck();">
+                            確認刪除
+                        </button>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

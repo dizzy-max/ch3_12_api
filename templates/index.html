@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% block title %}
+<title>學生資料管理系統</title>
+{% comment %} test {% endcomment %}
+<style>
+    body {
+        font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+        background-color: #f4f8fb;
+        color: #333;
+    }
+
+    h1 {
+        text-align: center;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: 400;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .container {
+        width: 85%;
+        margin: auto;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        margin-top: 25px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    /* 按鈕 */
+    .btn {
+        padding: 6px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #4da3ff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #3a8be0;
+    }
+
+    .btn-light {
+        background-color: #eaf4ff;
+        color: #4da3ff;
+    }
+
+    .btn-light:hover {
+        background-color: #d8ebff;
+    }
+
+    .btn-danger {
+        background-color: #ffecec;
+        color: #ff5c5c;
+    }
+
+    .btn-danger:hover {
+        background-color: #ffdede;
+    }
+
+    /* 搜尋 */
+    .search-box {
+        text-align: center;
+    }
+
+    input[type="search"] {
+        width: 260px;
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        outline: none;
+    }
+
+    input[type="search"]:focus {
+        border-color: #4da3ff;
+    }
+
+    button {
+        margin-left: 5px;
+    }
+
+    /* 表格 */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    th {
+        text-align: center;
+        padding: 10px;
+        background-color: #f0f6ff;
+        font-weight: 500;
+    }
+
+    td {
+        text-align: center;
+        padding: 10px;
+        border-top: 1px solid #eee;
+    }
+
+    tr:hover {
+        background-color: #f7fbff;
+    }
+
+    /* 分頁 */
+    .pagination {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .pagination a, .pagination span {
+        margin: 0 4px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        color: #4da3ff;
+    }
+
+    .pagination a:hover {
+        background-color: #eaf4ff;
+    }
+
+    .pagination strong {
+        background-color: #4da3ff;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+        <h1>學生資料管理系統</h1>
+        <h2>
+            目標資料筆數: {{data_count}}　
+            <a href="/post/" class="btn btn-primary">新增學生</a>
+        </h2>
+    </div>
+
+    <div class="card search-box">
+        <form action="/index/" method="get">
+            <input type="search" name="site_search" placeholder="輸入關鍵字搜尋...">
+            <button class="btn btn-primary">搜尋</button>
+        </form>
+    </div>
+
+    <div class="card">
+        {% if status %}
+        <table>
+            <tr>
+                <th>學號</th>
+                <th>姓名</th>
+                <th>性別</th>
+                <th>生日</th>
+                <th>信箱</th>
+                <th>電話</th>
+                <th>地址</th>
+                <th>操作</th>
+            </tr>
+
+            {% for data in page_obj %}
+            <tr>
+                <td>{{data.cid}}</td>
+                <td>{{data.cname}}</td>
+                <td>{% if data.csex == "M" %}男{% else %}女{% endif %}</td>
+                <td>{{data.cbirthday}}</td>
+                <td>{{data.cemail}}</td>
+                <td>{{data.cphone}}</td>
+                <td>{{data.caddr}}</td>
+                <td>
+                    <a href="/edit/{{data.cid}}" class="btn btn-light">編輯</a>
+                    <a href="/delete/{{data.cid}}" class="btn btn-danger">刪除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">最前</a>
+                <a href="?page={{ page_obj.previous_page_number }}">上一頁</a>
+            {% else %}
+                <span>最前</span>
+                <span>上一頁</span>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <strong>{{ num }}</strong>
+                {% else %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">下一頁</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後</a>
+            {% else %}
+                <span>下一頁</span>
+                <span>最後</span>
+            {% endif %}
+        </div>
+
+        {% else %}
+            <h2 style="text-align:center; color:#ff5c5c;">{{errormessage}}</h2>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
