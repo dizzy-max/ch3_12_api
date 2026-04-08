@@ -152,3 +152,71 @@ def getItem(request,id):
         return JsonResponse(resultDict, safe=False)
     except:
         return JsonResponse({"error":"item not found"}, status=404)
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt    
+def createItem(request):
+    try:
+        if request.method == "GET":
+            cname = request.GET['cname']
+            csex = request.GET['csex']
+            cbirthday = request.GET['cbirthday']
+            cemail = request.GET['cemail']
+            cphone = request.GET['cphone']
+            caddr = request.GET['caddr']
+            print(f"GET data: cname={cname}, csex={csex}, cbirthday={cbirthday}, cemail={cemail}, cphone={cphone}, caddr={caddr}")
+            return HttpResponse("get...")
+        elif request.method == "POST":
+            cname = request.POST['cname']
+            csex = request.POST['csex']
+            cbirthday = request.POST['cbirthday']
+            cemail = request.POST['cemail']
+            cphone = request.POST['cphone']
+            caddr = request.POST['caddr']
+            print(f"POST data: cname={cname}, csex={csex}, cbirthday={cbirthday}, cemail={cemail}, cphone={cphone}, caddr={caddr}")
+            # return HttpResponse("post...")
+        try:
+            add=students(cname = cname, csex = csex, cbirthday = cbirthday, cemail=cemail, cphone=cphone, caddr=caddr)
+            add.save()
+            return JsonResponse({"message":"successful"}, status=201)
+        except:
+            return JsonResponse({"error":"Fail to create data"}, status=500)
+    except:
+        return JsonResponse({"error":"valid data"}, status=404)
+
+@csrf_exempt
+def updateItem(request,id):
+    print(f"id={id}")
+    try:
+        if request.method == "GET":
+            cname = request.GET['cname']
+            csex = request.GET['csex']
+            cbirthday = request.GET['cbirthday']
+            cemail = request.GET['cemail']
+            cphone = request.GET['cphone']
+            caddr = request.GET['caddr']
+            print(f"GET data: cname={cname}, csex={csex}, cbirthday={cbirthday}, cemail={cemail}, cphone={cphone}, caddr={caddr}")
+            # return HttpResponse("get...")
+        elif request.method == "POST":
+            cname = request.POST['cname']
+            csex = request.POST['csex']
+            cbirthday = request.POST['cbirthday']
+            cemail = request.POST['cemail']
+            cphone = request.POST['cphone']
+            caddr = request.POST['caddr']
+            print(f"POST data: cname={cname}, csex={csex}, cbirthday={cbirthday}, cemail={cemail}, cphone={cphone}, caddr={caddr}")
+            # return HttpResponse("post...")
+        try:
+            update = students.objects.get(cid=id)
+            update.cname = cname
+            update.csex = csex
+            update.cbirthday = cbirthday
+            update.cemail = cemail
+            update.cphone = cphone
+            update.caddr = caddr
+            update.save()
+            return JsonResponse({"message":"successful"}, status=200)
+        except:
+            return JsonResponse({"error":"Fail to create data"}, status=500)
+    except:
+        return JsonResponse({"error":"valid data"}, status=404)

@@ -29,4 +29,6 @@ urlpatterns = [
     # web api
     path('getAllitems/', views.getAllitems, name='getAllitems'),
     path('getItem/<int:id>/', views.getItem, name='getItem'),
+    path('createItem/', views.createItem, name='createItem'),
+    path('updateItem/<int:id>/', views.updateItem, name='updateItem'),
 ]
