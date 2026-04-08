@@ -23,6 +23,10 @@ urlpatterns = [
     path('search_name/', views.search_name, name='search_name'),
     path('index/', views.index, name='index'),
     path('post/', views.post, name='post'),
-    path('edit/<int:id>', views.edit, name='edit'),
-    path('delete/<int:id>', views.delete, name='delete'),
+    path('edit/<int:id>/', views.edit, name='edit'),
+    path('delete/<int:id>/', views.delete, name='delete'),
+
+    # web api
+    path('getAllitems/', views.getAllitems, name='getAllitems'),
+    path('getItem/<int:id>/', views.getItem, name='getItem'),
 ]

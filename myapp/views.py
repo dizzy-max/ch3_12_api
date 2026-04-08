@@ -132,3 +132,23 @@ def delete(request, id):
         obj = students.objects.get(cid=id)
         # print(model_to_dict(obj))
         return render(request, 'delete.html',{'obj':obj})
+
+from django.http import JsonResponse
+def getAllitems(request):
+    resultObject = students.objects.all().order_by('cid')
+    # print(type(resultObject))
+    resultList = list(resultObject.values())
+    # print(type(resultList))
+    # for i in resultList:
+    #     print(type(i))
+    # return HttpResponse("getAllitems")
+    return JsonResponse(resultList, safe=False)
+
+def getItem(request,id):
+    try:
+        obj = students.objects.get(cid=id)
+        # print(type(obj))
+        resultDict = model_to_dict(obj)
+        return JsonResponse(resultDict, safe=False)
+    except:
+        return JsonResponse({"error":"item not found"}, status=404)
